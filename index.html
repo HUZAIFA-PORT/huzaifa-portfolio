@@ -523,35 +523,6 @@ body  { font-family: 'Jost', 'Inter', system-ui, sans-serif; background: #0a0a0f
     backdrop-filter: blur(4px);
     display: inline-block;
 }
-/* Animated circle ring around the photo frame */
-.hero-photo-frame::before {
-    content: '';
-    position: absolute;
-    inset: -14px;
-    border-radius: 42px;
-    background: conic-gradient(
-        from 0deg,
-        transparent 0deg,
-        var(--green) 60deg,
-        rgba(62,207,142,0.3) 120deg,
-        transparent 180deg,
-        transparent 360deg
-    );
-    animation: spin-ring 3s linear infinite;
-    z-index: -1;
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
-    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
-}
-.hero-photo-frame::after {
-    content: '';
-    position: absolute;
-    inset: -14px;
-    border-radius: 42px;
-    background: rgba(62,207,142,0.06);
-    z-index: -2;
-    box-shadow: 0 0 30px rgba(62,207,142,0.15), inset 0 0 30px rgba(62,207,142,0.05);
-}
-@keyframes spin-ring { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
 .hero-photo {
     width: 320px; height: 380px;
     border-radius: 22px; overflow: hidden;
@@ -643,9 +614,9 @@ body  { font-family: 'Jost', 'Inter', system-ui, sans-serif; background: #0a0a0f
 ============================================================ */
 @media (max-width:600px) {
     .hero {
-        padding-top: calc(var(--nav-h-mob) + 1.5rem);
+        padding-top: calc(var(--nav-h-mob) + 3.5rem);
         padding-left:4%; padding-right:4%;
-        padding-bottom:3rem;
+        padding-bottom:3.5rem;
         min-height:unset; align-items:flex-start;
     }
  
@@ -674,7 +645,8 @@ body  { font-family: 'Jost', 'Inter', system-ui, sans-serif; background: #0a0a0f
     }
     .hero-tagline { font-size:.85rem; }
  
-    .hero-photo-wrapper { padding:36px 44px; }
+    /* Reduce vertical padding — was creating a visible gap below the photo */
+    .hero-photo-wrapper { padding:16px 40px 24px; }
     .hero-photo         { width:200px; height:245px; }
     .photo-bg-shape     { display:none; }
     .hero-bg-text       { display:none; }
@@ -707,10 +679,16 @@ body  { font-family: 'Jost', 'Inter', system-ui, sans-serif; background: #0a0a0f
     #hero-cursor-glow { display:none; }
     .hero-scan-line   { display:none; }
     .hero-corner      { display:none; }
-    /* ticker stays visible on mobile — just smaller */
-    .hero-ticker-wrap { display:block; }
-    .hero-ticker span { font-size:10px; }
-    .hero-ticker      { gap:24px; }
+ 
+    /* Ticker visible on mobile — smaller, still scrolls */
+    .hero-ticker-wrap {
+        display: block;
+        /* tighten fade edges on narrow screens */
+        mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+    }
+    .hero-ticker { gap: 24px; animation-duration: 16s; }
+    .hero-ticker span { font-size: 10px; }
 }
  
 /* ============================================================
@@ -5284,7 +5262,7 @@ img {
             <div class="photo-bg-shape"></div>
             <div class="hero-photo-frame">
                 <div class="hero-photo">
-                    <img src="Images/myprofile.png" alt="Huzaifa Ansari" class="hero-img"
+                    <img src="images/myprofile.png" alt="Huzaifa Ansari" class="hero-img"
                          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a2a3a,#0a1628)';">
                 </div>
                 <div class="hero-floating-badge">
